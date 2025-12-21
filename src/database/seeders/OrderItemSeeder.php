@@ -13,31 +13,36 @@ class OrderItemSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('menus')->insert([
+        DB::table('order_items')->insert([
              [
-                'name' => 'ハンバーガー',
-                'description' => '小ぶりだけどジューシーな定番バーガー。',
-                'price' => 500,
-                'image_url' => null,
-                'is_active' => true,
+                'menu_id' => 1,
+                'order_id' => 1,
+                'price_at_order' => 500,
+                'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'チーズバーガー',
-                'description' => 'とろけるチーズが魅力。',
-                'price' => 550,
-                'image_url' => null,
-                'is_active' => true,
+             [
+                'menu_id' => 2,
+                'order_id' => 1,
+                'price_at_order' => 150,
+                'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'コーラ',
-                'description' => 'さっぱり爽快、セットでどうぞ。',
-                'price' => 150,
-                'image_url' => null,
-                'is_active' => true,
+             [
+                'menu_id' => 2,
+                'order_id' => 2,
+                'price_at_order' => 550,
+                'quantity' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+             [
+                'menu_id' => 3,
+                'order_id' => 2,
+                'price_at_order' => 150,
+                'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
