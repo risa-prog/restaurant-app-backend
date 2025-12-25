@@ -21,8 +21,8 @@ class OrderController extends Controller
         ]);
 
         try{
-        DB::transaction(function () use ($validated){
-            $order = Order::create([
+        $order = DB::transaction(function () use ($validated){
+            $createdOrder = Order::create([
                 'table_number' => $validated['tableNumber'],
             ]);
 
@@ -32,17 +32,20 @@ class OrderController extends Controller
                 $menu = Menu::findOrFail($item['menuId']);
                 OrderItem::create([
                     'menu_id' => $menu->id,
-                    'order_id' => $order->id,
+                    'order_id' => $createdOrder->id,
                     'price_at_order' => $menu->price,
                     'quantity' => $item['quantity'],
                 ]);
                  $total += $menu->price * $item['quantity'];
             }
-                $order->update(['total_price' => $total]);
+                $createdOrder->update(['total_price' => $total]);
+
+                return $createdOrder;
             });
 
             return response()->json([
-                    'message' => '注文が完了しました'
+                    'message' => '注文が完了しました',
+                    'order_id' => $order->id
                 ], 201);
         }catch(\Throwable $e) {
              Log::error($e);

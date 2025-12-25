@@ -16,7 +16,7 @@ class MenuController extends Controller
                 'data' => $menus
             ], 200);
 
-        }catch(\Exception $e){
+        }catch(\Throwable $e){
 
             Log::error($e);
 

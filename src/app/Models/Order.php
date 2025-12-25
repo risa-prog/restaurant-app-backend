@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = ['table_number', 'status', 'total_price'];
+
+    public function items(){
+        return $this->hasMany(OrderItem::class);
+    }
 }
