@@ -26,6 +26,12 @@ class MenuController extends Controller
         ], 200);
     }
 
+    public function show(Menu $menu) {
+       return response()->json([
+        'data' => $menu
+       ]);
+    }
+
     public function destroy(Menu $menu) {
         $menu->delete();
 

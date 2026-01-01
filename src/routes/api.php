@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 
 Route::get('/menus', [MenuController::class, 'index']);
+Route::get('/menus/{menu}', [MenuController::class, 'show']);
 Route::delete('/menus/{menu}', [MenuController::class, 'destroy']);
 Route::get('/orders',[OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
