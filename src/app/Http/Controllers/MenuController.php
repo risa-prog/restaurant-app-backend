@@ -4,25 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class MenuController extends Controller
 {
-    public function index() {
-        try{
-            $menus = Menu::all();
+    public function index(Request $request) {
+            $query = Menu::query();
+
+            if($request->boolean('is_active')){
+                $query->where('is_active', true);
+            }
+
+            if($request->get('sort') === 'created_at_desc'){
+                $query->orderBy('created_at', 'desc');
+            }
+
+            $menus = $query->get();
 
             return response()->json([
                 'data' => $menus
             ], 200);
-
-        }catch(\Throwable $e){
-
-            Log::error($e);
-
-            return response()->json([
-                'message' => 'サーバーエラーです'
-            ], 500);
-        }
     }
 }
