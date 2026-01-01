@@ -23,7 +23,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
              [
-                'menu_id' => 2,
+                'menu_id' => 3,
                 'order_id' => 1,
                 'price_at_order' => 150,
                 'quantity' => 1,

@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     public function index(){
-        $orders = Order::with('items.menu')->get();
+        $orders = Order::with('items.menu')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data' => $orders,
@@ -75,6 +78,6 @@ class OrderController extends Controller
         return response()->json([
             'message' => '注文ステータスを更新しました',
             'data' => $order,
-        ]);
+        ], 200);
     }
 }

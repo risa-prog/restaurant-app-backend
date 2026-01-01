@@ -8,20 +8,29 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     public function index(Request $request) {
-            $query = Menu::query();
+        $query = Menu::query();
 
-            if($request->boolean('is_active')){
-                $query->where('is_active', true);
-            }
+        if($request->boolean('is_active')){
+            $query->where('is_active', true);
+        }
 
-            if($request->get('sort') === 'created_at_desc'){
-                $query->orderBy('created_at', 'desc');
-            }
+        if($request->get('sort') === 'created_at_desc'){
+            $query->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc'); 
+        }
 
-            $menus = $query->get();
+        $menus = $query->get();
 
-            return response()->json([
-                'data' => $menus
-            ], 200);
+        return response()->json([
+            'data' => $menus
+        ], 200);
+    }
+
+    public function destroy(Menu $menu) {
+        $menu->delete();
+
+        return response()->json([
+            'message' => 'メニューを削除しました'
+        ], 200);
     }
 }
