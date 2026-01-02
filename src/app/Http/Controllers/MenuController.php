@@ -31,12 +31,4 @@ class MenuController extends Controller
         'data' => $menu
        ]);
     }
-
-    public function destroy(Menu $menu) {
-        $menu->delete();
-
-        return response()->json([
-            'message' => 'メニューを削除しました'
-        ], 200);
-    }
 }
