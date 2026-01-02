@@ -13,6 +13,8 @@ Route::get('/orders',[OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::patch('/orders/{order}', [OrderController::class, 'updateStatus']);
 Route::get('/orders/{order}/items', [OrderItemController::class, 'index']);
+
+Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
