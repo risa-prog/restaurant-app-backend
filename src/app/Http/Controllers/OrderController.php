@@ -61,8 +61,8 @@ class OrderController extends Controller
         }catch(\Throwable $e) {
              Log::error($e);
              return response()->json([
-            'message' => '注文の作成に失敗しました'
-        ], 500);
+                'message' => '注文の作成に失敗しました'
+            ], 500);
         }
     }
     

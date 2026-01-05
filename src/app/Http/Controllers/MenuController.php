@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class MenuController extends Controller
 {
@@ -30,5 +31,43 @@ class MenuController extends Controller
        return response()->json([
         'data' => $menu
        ]);
+    }
+
+    public function store(Request $request) {
+        try{
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:1',
+                'is_active' => 'required|boolean',
+                'description' => 'nullable|string|max:255',
+            ], [
+                'name.required' => '名前を入力してください',
+                'name.string' => '名前は文字列で入力してください',
+                'name.max' => '名前は255文字以内で入力してください',
+                'price.required' => '価格を入力してください',
+                'price.numeric' => '価格は数字で入力してください',
+                'price.min' => '価格は1円以上で入力してください',
+                'is_active.required' => '状態を指定してください',
+                'is_active.boolean' => '状態が不正です',
+                'description.string' => '説明は文字列で入力してください',
+                'description.max' => '説明は255文字以内で入力してください',
+            ]);
+        }catch(ValidationException $e){
+                return response()->json([
+                    'message' => '入力エラーです',
+                    'errors' => $e->errors(),
+                ], 422);
+        }
+
+        Menu::create([
+            'name' => $validated['name'],
+            'price' => $validated['price'],
+            'is_active' => $validated['is_active'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message' => 'メニューを作成しました',
+        ], 201);
     }
 }
