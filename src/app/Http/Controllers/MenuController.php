@@ -38,8 +38,9 @@ class MenuController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:1',
-                'is_active' => 'required|boolean',
+                'is_active' => 'required|in:0,1',
                 'description' => 'nullable|string|max:255',
+                'image' => 'nullable|image|max:2048', 
             ], [
                 'name.required' => '名前を入力してください',
                 'name.string' => '名前は文字列で入力してください',
@@ -51,6 +52,8 @@ class MenuController extends Controller
                 'is_active.boolean' => '状態が不正です',
                 'description.string' => '説明は文字列で入力してください',
                 'description.max' => '説明は255文字以内で入力してください',
+                'image.image' => '画像ファイルをアップロードしてください',
+                'image.max' => '画像サイズは2MB以内にしてください',
             ]);
         }catch(ValidationException $e){
                 return response()->json([
@@ -59,11 +62,18 @@ class MenuController extends Controller
                 ], 422);
         }
 
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('menus', 'public');
+        }
+
         Menu::create([
             'name' => $validated['name'],
             'price' => $validated['price'],
-            'is_active' => $validated['is_active'],
+            'is_active' => (bool) $validated['is_active'],
             'description' => $validated['description'] ?? null,
+            'image_url' => $imagePath,
         ]);
 
         return response()->json([
