@@ -24,6 +24,11 @@ class MenuController extends Controller
 
         $menus = $query->get();
 
+        $menus->transform(function ($menu){
+            $menu->image_url = $menu->image_url ? asset('/storage/' . $menu->image_url) : null;
+            return $menu;
+        });
+
         return response()->json([
             'data' => $menus
         ], 200);
@@ -44,7 +49,7 @@ class MenuController extends Controller
                 'price' => 'required|numeric|min:1',
                 'is_active' => 'required|in:0,1',
                 'description' => 'nullable|string|max:255',
-                'image' => 'nullable|image|max:2048', 
+                'image' => 'nullable|image|max:10240', 
             ], [
                 'name.required' => '名前を入力してください',
                 'name.string' => '名前は文字列で入力してください',
@@ -57,7 +62,7 @@ class MenuController extends Controller
                 'description.string' => '説明は文字列で入力してください',
                 'description.max' => '説明は255文字以内で入力してください',
                 'image.image' => '画像ファイルをアップロードしてください',
-                'image.max' => '画像サイズは2MB以内にしてください',
+                'image.max' => '画像サイズは10MB以内にしてください',
             ]);
         }catch(ValidationException $e){
                 return response()->json([
@@ -92,7 +97,7 @@ class MenuController extends Controller
                 'price' => 'required|numeric|min:1',
                 'is_active' => 'required|in:0,1',
                 'description' => 'nullable|string|max:255',
-                'image' => 'nullable|image|max:2048', 
+                'image' => 'nullable|image|max:10240', 
                 'remove_image' => 'nullable|boolean',
             ], [
                 'name.required' => '名前を入力してください',
@@ -106,7 +111,7 @@ class MenuController extends Controller
                 'description.string' => '説明は文字列で入力してください',
                 'description.max' => '説明は255文字以内で入力してください',
                 'image.image' => '画像ファイルをアップロードしてください',
-                'image.max' => '画像サイズは2MB以内にしてください',
+                'image.max' => '画像サイズは10MB以内にしてください',
             ]);
         }catch(ValidationException $e){
             Log::warning('Menu validation failed', $e->errors());
