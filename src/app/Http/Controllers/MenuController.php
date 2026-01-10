@@ -114,29 +114,27 @@ class MenuController extends Controller
                 'image.max' => '画像サイズは10MB以内にしてください',
             ]);
         }catch(ValidationException $e){
-            Log::warning('Menu validation failed', $e->errors());
             return response()->json([
                 'message' => '入力エラーです',
                 'errors' => $e->errors(),
             ], 422);
         }
 
-    $imagePath = $menu->image_url; 
+        $imagePath = $menu->image_url; 
 
-    
-    if ($request->hasFile('image')) {
-        if ($menu->image_url) {
-            Storage::disk('public')->delete($menu->image_url);
+        if ($request->hasFile('image')) {
+            if ($menu->image_url) {
+                Storage::disk('public')->delete($menu->image_url);
+            }
+            $imagePath = $request->file('image')->store('menus', 'public');
         }
-        $imagePath = $request->file('image')->store('menus', 'public');
-    }
 
-    if ($request->boolean('remove_image') && !$request->hasFile('image')) {
-        if ($menu->image_url) {
-            Storage::disk('public')->delete($menu->image_url);
+        if ($request->boolean('remove_image') && !$request->hasFile('image')) {
+            if ($menu->image_url) {
+                Storage::disk('public')->delete($menu->image_url);
+            }
+            $imagePath = null;
         }
-        $imagePath = null;
-    }
 
         $menu->update([
             'name' => $validated['name'],
@@ -147,7 +145,7 @@ class MenuController extends Controller
         ]);
 
         return response()->json([
-              'message' => 'メニューを更新しました',
+                'message' => 'メニューを更新しました',
         ], 200);
     }
 }

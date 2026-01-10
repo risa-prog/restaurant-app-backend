@@ -80,7 +80,7 @@ class AuthController extends Controller
          $token = $user->createToken('admin-token')->plainTextToken;
 
         return response()->json([
-        'message' => 'ログイン成功',
+        'message' => 'ログインしました',
         'token' => $token,
         'user' => $user,
     ]);
