@@ -31,7 +31,6 @@ class OrderController extends Controller
             'items.*.quantity' => 'required|integer|min: 1',   
         ]);
 
-        try{
         $order = DB::transaction(function () use ($validated){
             $createdOrder = Order::create([
                 'table_number' => $validated['tableNumber'],
@@ -40,7 +39,7 @@ class OrderController extends Controller
             $total = 0;
 
             foreach($validated['items'] as $item) {
-                $menu = Menu::findOrFail($item['menuId']);
+                $menu = Menu::find($item['menuId']);
                 OrderItem::create([
                     'menu_id' => $menu->id,
                     'order_id' => $createdOrder->id,
@@ -49,25 +48,20 @@ class OrderController extends Controller
                 ]);
                  $total += $menu->price * $item['quantity'];
             }
-                $createdOrder->update(['total_price' => $total]);
 
-                return $createdOrder;
-            });
+            $createdOrder->update(['total_price' => $total]);
 
-            return response()->json([
-                    'message' => '注文が完了しました',
-                    'order_id' => $order->id
-                ], 201);
-        }catch(\Throwable $e) {
-             Log::error($e);
-             return response()->json([
-                'message' => '注文の作成に失敗しました'
-            ], 500);
-        }
+            return $createdOrder;
+        });
+
+        return response()->json([
+            'message' => '注文が完了しました',
+            'order_id' => $order->id
+        ], 201);
     }
     
     public function updateStatus(Request $request, Order $order) {
-       $validated = $request->validate([
+        $validated = $request->validate([
             'status' => 'required|in:pending,completed',
         ]);
 
