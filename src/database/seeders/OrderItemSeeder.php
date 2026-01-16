@@ -17,15 +17,7 @@ class OrderItemSeeder extends Seeder
              [
                 'menu_id' => 1,
                 'order_id' => 1,
-                'price_at_order' => 500,
-                'quantity' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-             [
-                'menu_id' => 3,
-                'order_id' => 1,
-                'price_at_order' => 150,
+                'price_at_order' => 1100,
                 'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -33,7 +25,7 @@ class OrderItemSeeder extends Seeder
              [
                 'menu_id' => 2,
                 'order_id' => 2,
-                'price_at_order' => 550,
+                'price_at_order' => 1200,
                 'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -41,7 +33,7 @@ class OrderItemSeeder extends Seeder
              [
                 'menu_id' => 3,
                 'order_id' => 2,
-                'price_at_order' => 150,
+                'price_at_order' => 1500,
                 'quantity' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

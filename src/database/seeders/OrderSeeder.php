@@ -17,14 +17,14 @@ class OrderSeeder extends Seeder
             [
                 'table_number' => 1,
                 'status' => 'pending',
-                'total_price' => 650,
+                'total_price' => 1100,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'table_number' => 2,
                 'status' => 'completed',
-                'total_price' => 700,
+                'total_price' => 2700,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
